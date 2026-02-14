@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Clipboard from 'expo-clipboard';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 /**
  * Fraction class to handle fraction operations
@@ -119,11 +120,11 @@ function tokenize(expression) {
       continue;
     }
 
-    // Numbers (including fractions like 2/3, mixed numbers like 5 1/3, and negative numbers)
-    if (/[\d-]/.test(char)) {
+    // Numbers (including fractions like 2/3, mixed numbers like 5 1/3, decimals, and negative numbers)
+    if (/[\d.-]/.test(char)) {
       let num = '';
-      // First, capture the whole/fraction part
-      while (i < expression.length && /[\d/-]/.test(expression[i]) && expression[i] !== ' ') {
+      // First, capture the whole/fraction/decimal part
+      while (i < expression.length && /[\d./-]/.test(expression[i]) && expression[i] !== ' ') {
         num += expression[i];
         i++;
       }
@@ -201,6 +202,16 @@ function parseNumber(numStr) {
       const denominator = parseInt(parts[1]);
       return new Fraction(numerator, denominator);
     }
+  }
+  // Check if it's a decimal number
+  if (numStr.includes('.')) {
+    const decimal = parseFloat(numStr);
+    // Convert decimal to fraction
+    // Count decimal places to determine denominator
+    const decimalStr = numStr.split('.')[1] || '';
+    const denominator = Math.pow(10, decimalStr.length);
+    const numerator = Math.round(decimal * denominator);
+    return new Fraction(numerator, denominator);
   }
   // Regular integer
   const num = parseInt(numStr);
@@ -408,32 +419,46 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
         <StatusBar style="auto" />
 
-        <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ScrollView contentContainerStyle={styles.scrollContent} scrollEnabled={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleIcon}>🔢</Text>
           <Text style={styles.title}>Fraction Calculator</Text>
         </View>
 
         {/* Input Field */}
-        <View style={styles.inputContainer}>
+        <View style={styles.inputWrapper}>
+          <View style={styles.inputIconContainer}>
+            <Text style={styles.inputIcon}>🧮</Text>
+          </View>
           <TextInput
             style={styles.input}
             value={expression}
             onChangeText={setExpression}
             onSubmitEditing={handleEvaluate}
+            onKeyPress={({ nativeEvent }) => {
+              if (nativeEvent.key === 'Escape' || nativeEvent.key === 'Esc') {
+                handleClear();
+              }
+            }}
             returnKeyType="done"
             placeholder="Enter expression (e.g., 2/6 + 1/3)"
             placeholderTextColor="#999"
             autoCorrect={false}
             autoCapitalize="none"
           />
+          {expression.length > 0 && (
+            <TouchableOpacity style={styles.inputClearButton} onPress={() => setExpression('')}>
+              <Text style={styles.inputClearIcon}>✕</Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Result Display */}
@@ -449,29 +474,40 @@ export default function App() {
               <FractionDisplay fraction={result} />
             )
           ) : null}
-        </View>
 
-        {/* Action Buttons */}
-        <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
-            <Text style={styles.smallButtonText}>Clear</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.toggleButton, !result && styles.buttonDisabled]}
-            onPress={() => setShowDecimal(!showDecimal)}
-            disabled={!result}
-          >
-            <Text style={styles.smallButtonText}>
-              {showDecimal ? 'Fraction' : 'Decimal'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.copyButton, !result && styles.buttonDisabled]}
-            onPress={copyToClipboard}
-            disabled={!result}
-          >
-            <Text style={styles.smallButtonText}>Copy</Text>
-          </TouchableOpacity>
+          {/* Icon buttons at bottom right */}
+          <View style={styles.resultActionButtons}>
+            <TouchableOpacity
+              style={[styles.resultIconButton, !result && styles.buttonDisabled]}
+              onPress={() => setShowDecimal(!showDecimal)}
+              disabled={!result}
+            >
+              {showDecimal ? (
+                <View style={styles.decimalIcon}>
+                  <Text style={styles.decimalIconText}>1.23</Text>
+                </View>
+              ) : (
+                <View style={styles.fractionIcon}>
+                  <Text style={styles.fractionIconTop}>x</Text>
+                  <View style={styles.fractionIconLine} />
+                  <Text style={styles.fractionIconBottom}>y</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.resultIconButton, !result && styles.buttonDisabled]}
+              onPress={copyToClipboard}
+              disabled={!result}
+            >
+              <Text style={styles.resultIcon}>📋</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.resultIconButton}
+              onPress={handleClear}
+            >
+              <Text style={styles.resultIcon}>🗑️</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Keypad */}
@@ -540,6 +576,7 @@ export default function App() {
       </ScrollView>
     </KeyboardAvoidingView>
     </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -554,12 +591,13 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
+    paddingTop: 60,
     paddingBottom: 40,
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     marginBottom: 20,
     gap: 12,
   },
@@ -575,31 +613,64 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  inputContainer: {
+  inputWrapper: {
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 15,
     marginBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 2,
+    borderColor: '#007AFF',
+    elevation: 4,
+    shadowColor: '#007AFF',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    overflow: 'hidden',
+    height: 50,
+  },
+  inputIconContainer: {
+    paddingLeft: 10,
+    paddingRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    height: '100%',
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(0, 122, 255, 0.3)',
+  },
+  inputIcon: {
+    fontSize: 18,
   },
   input: {
     flex: 1,
-    height: 50,
-    paddingHorizontal: 15,
+    height: '100%',
+    paddingHorizontal: 12,
     fontSize: 18,
     color: '#333',
+    fontWeight: '500',
+    backgroundColor: '#fff',
+  },
+  inputClearButton: {
+    width: 40,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    borderLeftWidth: 1,
+    borderLeftColor: 'rgba(255, 59, 48, 0.2)',
+  },
+  inputClearIcon: {
+    fontSize: 18,
+    color: '#FF3B30',
+    fontWeight: 'bold',
   },
   resultContainer: {
     backgroundColor: '#1a1a1a',
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
-    height: 120,
+    height: 140,
     alignItems: 'flex-end',
     justifyContent: 'center',
     elevation: 2,
@@ -607,6 +678,62 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
+    position: 'relative',
+  },
+  resultActionButtons: {
+    position: 'absolute',
+    bottom: 8,
+    left: 8,
+    flexDirection: 'row',
+    gap: 6,
+  },
+  resultIconButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resultIcon: {
+    fontSize: 16,
+  },
+  fractionIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 20,
+    height: 20,
+  },
+  fractionIconTop: {
+    fontSize: 10,
+    color: '#fff',
+    fontWeight: 'bold',
+    lineHeight: 10,
+  },
+  fractionIconBottom: {
+    fontSize: 10,
+    color: '#fff',
+    fontWeight: 'bold',
+    lineHeight: 10,
+  },
+  fractionIconLine: {
+    height: 2,
+    width: 14,
+    backgroundColor: '#fff',
+    marginVertical: 1,
+  },
+  decimalIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  decimalIconText: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: 'bold',
+    lineHeight: 16,
+  },
+  buttonDisabled: {
+    opacity: 0.3,
   },
   resultValue: {
     fontSize: 28,
@@ -664,18 +791,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
-  toggleButton: {
-    backgroundColor: '#34C759',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  toggleButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
   error: {
     fontSize: 16,
     color: '#ff4444',
@@ -689,37 +804,6 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'center',
     fontStyle: 'italic',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 20,
-  },
-  clearButton: {
-    flex: 1,
-    backgroundColor: '#FF3B30',
-    padding: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  toggleButton: {
-    flex: 1,
-    backgroundColor: '#34C759',
-    padding: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  copyButton: {
-    flex: 1,
-    backgroundColor: '#FF9500',
-    padding: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  smallButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
   },
   keypadRow: {
     flexDirection: 'row',
