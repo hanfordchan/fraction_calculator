@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Fraction Calculator",
+    "slug": "fraction-calculator",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hanford2026.fraction-calculator"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#007AFF"
+      },
+      "package": "com.hanford2026.fractioncalculator"
+    }
+  }
+}
