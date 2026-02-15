@@ -1,0 +1,39 @@
+{
+  "cli": {
+    "version": ">= 18.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "ios": {
+        "autoIncrement": true,
+        "config": {
+          "usesNonExemptEncryption": false
+        }
+      },
+      "env": {
+        "CI": "true"
+      }
+      },
+      "android": {
+        "autoIncrement": true
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "hanfordchan@mac.com",
+        "ascAppId": "6759194988",
+        "appleTeamId": "8M43P859UC"
+      }
+    }
+  }
+}

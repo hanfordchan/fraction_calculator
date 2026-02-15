@@ -14,6 +14,12 @@
         "backgroundColor": "#007AFF"
       },
       "package": "com.hanford2026.fractioncalculator"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "345e247b-b35e-4aff-8c3f-6ea52529cb3e"
+      }
+    },
+    "owner": "hanford2026"
   }
 }
