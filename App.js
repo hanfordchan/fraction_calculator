@@ -506,12 +506,6 @@ export default function App() {
             >
               <Text style={styles.resultIcon}>📋</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.resultIconButton}
-              onPress={handleClear}
-            >
-              <Text style={styles.resultIcon}>🗑️</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
