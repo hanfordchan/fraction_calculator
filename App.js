@@ -827,8 +827,7 @@ const styles = StyleSheet.create({
   },
   keyButton: {
     flex: 1,
-    height: 70,
-    minHeight: 70,
+    aspectRatio: 1.4,
     backgroundColor: '#fff',
     borderRadius: 10,
     alignItems: 'center',
@@ -846,8 +845,7 @@ const styles = StyleSheet.create({
   },
   spaceButton: {
     flex: 1,
-    height: 70,
-    minHeight: 70,
+    aspectRatio: 1.4,
     backgroundColor: '#fff',
     borderRadius: 10,
     alignItems: 'center',
@@ -860,8 +858,7 @@ const styles = StyleSheet.create({
   },
   backspaceButton: {
     flex: 1,
-    height: 70,
-    minHeight: 70,
+    aspectRatio: 1.4,
     backgroundColor: '#FF9500',
     borderRadius: 10,
     alignItems: 'center',
@@ -882,8 +879,7 @@ const styles = StyleSheet.create({
   },
   equalsButton: {
     flex: 2,
-    height: 70,
-    minHeight: 70,
+    aspectRatio: 1.4,
     backgroundColor: '#007AFF',
     borderRadius: 10,
     alignItems: 'center',
