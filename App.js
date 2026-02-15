@@ -752,7 +752,7 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   resultValue: {
-    fontSize: 28,
+    fontSize: 36,
     color: '#00ff00',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     fontWeight: 'bold',
