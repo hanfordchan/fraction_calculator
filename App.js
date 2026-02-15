@@ -523,8 +523,8 @@ export default function App() {
             <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('9')}>
               <Text style={styles.keyButtonText}>9</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('/')}>
-              <Text style={styles.keyButtonText}>÷</Text>
+            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('+')}>
+              <Text style={styles.keyButtonText}>+</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.keypadRow}>
@@ -537,8 +537,8 @@ export default function App() {
             <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('6')}>
               <Text style={styles.keyButtonText}>6</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('*')}>
-              <Text style={styles.keyButtonText}>×</Text>
+            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('-')}>
+              <Text style={styles.keyButtonText}>−</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.keypadRow}>
@@ -551,8 +551,8 @@ export default function App() {
             <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('3')}>
               <Text style={styles.keyButtonText}>3</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('-')}>
-              <Text style={styles.keyButtonText}>−</Text>
+            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('*')}>
+              <Text style={styles.keyButtonText}>×</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.keypadRow}>
@@ -565,8 +565,8 @@ export default function App() {
             <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter(')')}>
               <Text style={styles.keyButtonText}>)</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('+')}>
-              <Text style={styles.keyButtonText}>+</Text>
+            <TouchableOpacity style={styles.keyButton} onPress={() => insertCharacter('/')}>
+              <Text style={styles.keyButtonText}>/</Text>
             </TouchableOpacity>
           </View>
           {/* Space and equals row */}
