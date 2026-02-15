@@ -34,18 +34,16 @@ async function createFractionIcons() {
 
     const svgBuffer = Buffer.from(svgString);
 
-    // Create opaque PNG using create with 3 channels
-    const image = sharp({
-      create: {
-        width: size,
-        height: size,
-        channels: 3,
-        background: { r: 0, g: 122, b: 255 }
-      }
-    });
-
-    const pngBuffer = await image.png().toBuffer();
-    await sharp(pngBuffer).toFile(`ios/FractionCalculator/Images.xcassets/AppIcon.appiconset/App-Icon-${size}x${size}@1x.png`);
+    // Convert SVG to PNG without alpha channel for 100% opacity
+    await sharp(svgBuffer)
+      .resize(size, size)
+      .png({
+        compressionLevel: 9,
+        adaptiveFiltering: false,
+        effort: 1,
+        quality: 100
+      })
+      .toFile(`ios/FractionCalculator/Images.xcassets/AppIcon.appiconset/App-Icon-${size}x${size}@1x.png`);
   }
 
   console.log('✓ Created x/y fraction icons on solid blue background (100% opaque)');
