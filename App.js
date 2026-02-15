@@ -843,7 +843,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   spaceButton: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
@@ -876,7 +876,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   equalsButton: {
-    flex: 1,
+    flex: 2,
     backgroundColor: '#007AFF',
     padding: 20,
     borderRadius: 10,
