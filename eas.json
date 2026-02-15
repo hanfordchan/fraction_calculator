@@ -13,14 +13,7 @@
     },
     "production": {
       "ios": {
-        "autoIncrement": true,
-        "config": {
-          "usesNonExemptEncryption": false
-        }
-      },
-      "env": {
-        "CI": "true"
-      }
+        "autoIncrement": true
       },
       "android": {
         "autoIncrement": true
