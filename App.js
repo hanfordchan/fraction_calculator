@@ -808,12 +808,13 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   error: {
-    fontSize: 16,
+    fontSize: 36,
     color: '#ff4444',
+    fontWeight: 'bold',
     textAlign: 'center',
     textShadowColor: '#ff4444',
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 4,
+    textShadowRadius: 8,
   },
   placeholder: {
     fontSize: 16,
