@@ -419,7 +419,7 @@ export default function App() {
   };
 
   const copyToClipboard = async () => {
-    const text = showDecimal ? result.toDecimal().toFixed(19) : result.toString();
+    const text = showDecimal ? result.toDecimal().toString() : result.toString();
     await Clipboard.setStringAsync(text);
   };
 
@@ -473,7 +473,7 @@ export default function App() {
           ) : result ? (
             showDecimal ? (
               <Text style={styles.resultValue} numberOfLines={1}>
-                {result.toDecimal().toFixed(19)}
+                {result.toDecimal().toString()}
               </Text>
             ) : (
               <FractionDisplay fraction={result} />
