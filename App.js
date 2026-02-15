@@ -414,6 +414,10 @@ export default function App() {
     setExpression(prev => prev + char);
   };
 
+  const handleBackspace = () => {
+    setExpression(prev => prev.slice(0, -1));
+  };
+
   const copyToClipboard = async () => {
     const text = showDecimal ? result.toDecimal().toFixed(19) : result.toString();
     await Clipboard.setStringAsync(text);
@@ -569,10 +573,13 @@ export default function App() {
               <Text style={styles.keyButtonText}>/</Text>
             </TouchableOpacity>
           </View>
-          {/* Space and equals row */}
+          {/* Space, backspace and equals row */}
           <View style={styles.keypadRow}>
             <TouchableOpacity style={styles.spaceButton} onPress={() => insertCharacter(' ')}>
               <Text style={styles.keyButtonText}>Space</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.backspaceButton} onPress={handleBackspace}>
+              <Text style={styles.backspaceButtonText}>⌫</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.equalsButton} onPress={handleEvaluate}>
               <Text style={styles.equalsButtonText}>=</Text>
@@ -847,11 +854,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
+  backspaceButton: {
+    flex: 1,
+    backgroundColor: '#FF9500',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  backspaceButtonText: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
   keypad: {
     gap: 10,
   },
   equalsButton: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#007AFF',
     padding: 20,
     borderRadius: 10,
