@@ -576,7 +576,7 @@ export default function App() {
           {/* Space, backspace and equals row */}
           <View style={styles.keypadRow}>
             <TouchableOpacity style={styles.spaceButton} onPress={() => insertCharacter(' ')}>
-              <Text style={styles.keyButtonText}>Space</Text>
+              <Text style={styles.keyButtonText}>␣</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.backspaceButton} onPress={handleBackspace}>
               <Text style={styles.backspaceButtonText}>⌫</Text>
