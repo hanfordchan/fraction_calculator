@@ -29,7 +29,7 @@ const svgString = `
 // Create a buffer from SVG
 const svgBuffer = Buffer.from(svgString);
 
-// Convert to PNG
+// Convert to PNG with no alpha channel
 sharp(svgBuffer)
   .png()
   .toFile('icon.png')
