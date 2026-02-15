@@ -827,7 +827,7 @@ const styles = StyleSheet.create({
   },
   keyButton: {
     flex: 1,
-    aspectRatio: 1.4,
+    height: 70,
     backgroundColor: '#fff',
     borderRadius: 10,
     alignItems: 'center',
@@ -845,7 +845,7 @@ const styles = StyleSheet.create({
   },
   spaceButton: {
     flex: 1,
-    aspectRatio: 1.4,
+    height: 70,
     backgroundColor: '#fff',
     borderRadius: 10,
     alignItems: 'center',
@@ -858,7 +858,7 @@ const styles = StyleSheet.create({
   },
   backspaceButton: {
     flex: 1,
-    aspectRatio: 1.4,
+    height: 70,
     backgroundColor: '#FF9500',
     borderRadius: 10,
     alignItems: 'center',
@@ -879,7 +879,7 @@ const styles = StyleSheet.create({
   },
   equalsButton: {
     flex: 2,
-    aspectRatio: 1.4,
+    height: 70,
     backgroundColor: '#007AFF',
     borderRadius: 10,
     alignItems: 'center',
@@ -889,6 +889,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  equalsButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   equalsButtonText: {
     color: '#fff',
