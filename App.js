@@ -573,13 +573,16 @@ export default function App() {
               <Text style={styles.keyButtonText}>/</Text>
             </TouchableOpacity>
           </View>
-          {/* Space, backspace and equals row */}
+          {/* AC, backspace, space and equals row */}
           <View style={styles.keypadRow}>
-            <TouchableOpacity style={styles.spaceButton} onPress={() => insertCharacter(' ')}>
-              <Text style={styles.keyButtonText}>␣</Text>
+            <TouchableOpacity style={styles.acButton} onPress={handleClear}>
+              <Text style={styles.keyButtonText}>AC</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.backspaceButton} onPress={handleBackspace}>
               <Text style={styles.backspaceButtonText}>⌫</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.spaceButton} onPress={() => insertCharacter(' ')}>
+              <Text style={styles.keyButtonText}>␣</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.equalsButton} onPress={handleEvaluate}>
               <Text style={styles.equalsButtonText}>=</Text>
@@ -875,11 +878,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  acButton: {
+    flex: 1,
+    height: 70,
+    backgroundColor: '#FF3B30',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
   keypad: {
     gap: 10,
   },
   equalsButton: {
-    flex: 2,
+    flex: 1,
     height: 70,
     backgroundColor: '#007AFF',
     borderRadius: 10,
