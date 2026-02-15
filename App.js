@@ -594,11 +594,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
   },
   scrollContent: {
     padding: 20,
-    paddingTop: 60,
-    paddingBottom: 40,
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   titleContainer: {
     flexDirection: 'row',
