@@ -395,10 +395,10 @@ export default function App() {
         setResult(fractionResult);
       } else {
         setResult(null);
-        setError('Please enter an expression');
+        setError('Invalid');
       }
     } catch (err) {
-      setError(err.message);
+      setError('Invalid');
       setResult(null);
     }
   };
